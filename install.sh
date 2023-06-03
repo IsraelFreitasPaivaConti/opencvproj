@@ -1,24 +1,26 @@
 #!/bin/bash
 
-apt update
-pkg update
-apt upgrade
-pkg upgrade
+DIR=$(dirname "$0")
 
-pkg install clang python fftw libjpeg-turbo libpng pkg-config
-
-python -m venv venv
-pip install -r requirements.txt
-
-mkdir lib64
-cd lib64
-
-git clone https://github.com/opencv/opencv.git
-cd opencv
-
-mkdir build
-cd build
-
-cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules ..
-make -j8
-make install
+if [ -n "$TERMUX_VERSION" ]; then
+    . $(dirname "$0")/termux.sh
+	Termux
+fi
+if [ "$(uname)" == "Linux" ]; then
+	if [ -f /etc/os-release ]; then
+		source /etc/os-release
+		if [[ "$ID" == "debian" || "$ID" == "ubuntu" ]]; then
+		    . $(dirname "$0")/ubuntu_debian.sh
+			UbuntuDebian
+			bash ./configure.sh
+		else
+			echo "Script para essa distribuição ausente."
+		fi
+	fi
+fi
+if [ "$(uname)" == "Darwin" ]; then
+    echo "Estou executando no macOS (Mac)."
+fi
+if [ "$(uname -o)" == "Cygwin" ] || [ "$(uname -o)" == "Msys" ]; then
+    echo "Estou executando no Windows (Cygwin ou Git Bash)."
+fi
