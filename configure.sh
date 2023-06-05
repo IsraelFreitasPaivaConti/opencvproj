@@ -20,7 +20,7 @@ _1() {
 	cd "$DIR"/lib && git remote add "$USER" https://github.com/"$user"/lib
 	cd "$DIR"/lib && git remote set-url origin https://github.com/"$user"/lib
 }
-	_1()
+	_1
 
 _2() {
 	if [ -d "script" ]; then
@@ -37,5 +37,5 @@ _2() {
 	cd "$DIR"/script && git remote add "$USER" https://github.com/"$user"/script
 	cd "$DIR"/script && git remote set-url origin https://github.com/"$user"/script
 }
-	_2()
+	_2
 fi
